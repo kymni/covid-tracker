@@ -1,0 +1,41 @@
+.app {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.graphs {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 4;
+}
+
+.col {
+  flex: 1;
+  min-width: 30rem;
+  min-height: 30rem;
+}
+
+.box {
+  position: absolute;
+  cursor: move;
+  color: black;
+  max-width: 215px;
+  border-radius: 5px;
+  padding: 1em;
+  margin: auto;
+  user-select: none;
+}

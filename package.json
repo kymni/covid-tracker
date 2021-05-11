@@ -1,0 +1,32 @@
+{
+  "name": "covid19",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "new-migration": "knex --knexfile ./db/knexfile.js migrate:make",
+    "migration": "knex --knexfile ./db/knexfile.js migrate:latest",
+    "rollback": "knex --knexfile ./db/knexfile.js migrate:rollback",
+    "seed": "knex --knexfile ./db/knexfile.js seed:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.dev.xero.com/gareth-cronin/refactionjs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "dotenv": "^9.0.1",
+    "express": "^4.15.3",
+    "knex": "^0.95.4",
+    "path": "^0.12.7",
+    "pg": "^8.6.0",
+    "react-draggable": "^4.4.3",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0"
+  }
+}
