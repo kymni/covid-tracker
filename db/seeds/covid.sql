@@ -1,3 +1,4 @@
+SET datestyle = dmy;
 insert into covid (indicator, series, sub_series, parameter, value, date_updated) values ('Tests per day', 'Tests by day', 'Tests by day', '01/03/2020', '12', '15/02/2021') on conflict do nothing;
 insert into covid (indicator, series, sub_series, parameter, value, date_updated) values ('Tests per day', 'Tests by day', 'Tests by day', '02/03/2020', '29', '15/02/2021') on conflict do nothing;
 insert into covid (indicator, series, sub_series, parameter, value, date_updated) values ('Tests per day', 'Tests by day', 'Tests by day', '03/03/2020', '26', '15/02/2021') on conflict do nothing;

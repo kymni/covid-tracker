@@ -13,6 +13,7 @@ module.exports = {
         }
       })
       .select(['parameter as date', 'indicator', 'series', 'sub_series', 'value'])
+      .orderBy('parameter', 'asc')
       .returning('*');
     }
 };
