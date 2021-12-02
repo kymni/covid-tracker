@@ -104,14 +104,14 @@ function App() {
                 inputFormat="MM/dd/yyyy"
                 value={startDate}
                 onChange={(d) => handleDateChange(d, 'start')}
-                renderInput={(params) => <TextField {...params}/>} 
+                renderInput={(params) => <TextField {...params}/>}
               />
               <DesktopDatePicker
                 label="End date"
                 inputFormat="MM/dd/yyyy"
                 value={endDate}
                 onChange={(d) => handleDateChange(d, 'end')}
-                renderInput={(params) => <TextField {...params}/>} 
+                renderInput={(params) => <TextField {...params}/>}
               />
               <div>Recovered: {(recovered.length > 0 && (recovered[recovered.length - 1].value - recovered[0].value)) || 0}</div>
               <div>Deceased: {(deceased.length > 0 && (deceased[deceased.length - 1].value - deceased[0].value)) || 0}</div>

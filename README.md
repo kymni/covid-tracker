@@ -1,4 +1,6 @@
-### Micado test
+### Covid Tacker
+
+This application uses COVID stats to visualise trends of various indicators. We first seed the data into a PostgreSQL database then visualise it on an interactive single page application
 
 Run the following from the root directory to start the api service on port `3001`
 
