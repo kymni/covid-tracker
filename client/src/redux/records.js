@@ -48,9 +48,13 @@ export const covid19Slice = createSlice({
           graphName: 'deceased',
           title: 'Number of deceased',
           records: action.payload.filter(record => record.sub_series === 'Deceased')
+        }, {
+          graphName: 'active',
+          title: 'Active cases',
+          records: action.payload.filter(record => record.sub_series === 'Active')
         }];
 
-        state.recovered = action.payload.filter(record => record.sub_series === 'Recovered')
+        state.recovered = action.payload.filter(record => record.sub_series === 'Recovered');
       });
   },
 });

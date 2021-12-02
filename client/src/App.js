@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch, useStore } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import debounce from 'lodash/debounce';
 import classNames from 'classnames';
 import arrayMove from 'array-move';
 import DatePicker from "react-datepicker";
+import { Stack, TextField } from '@mui/material';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterDateFNS from '@mui/lab/AdapterDateFns';
 
 // import "react-datepicker/dist/react-datepicker.css";
 import styles from './styles.css';
-import { fetchAsync, selectRecords, selectStatus, selectGraphsData } from './redux/records';
+import { fetchAsync, selectRecords, selectGraphsData } from './redux/records';
 import Chart from './components/chart';
 
 // use a debounce delay to mitigate probability of overloading the api
 const DEBOUNCE_DELAY = 500;
 const today = new Date();
 
-const SortableItem = SortableElement(({ value, title, graphName }) => <div className={classNames(styles.col)}>
+const SortableItem = SortableElement(({ value, title }) => <div className={classNames(styles.col)}>
   <Chart title={title} records={value}/>
 </div>);
 
@@ -37,8 +40,8 @@ const SortableList = SortableContainer(({ graphsOrder, graphsData }) => {
 });
 
 function App() {
-  const [graphsOrder, setGraphsOrder] = useState(['recovered', 'deceased']);
-  const [startDate, setStartDate] = useState((new Date()).setMonth(today.getMonth() - 1));
+  const [graphsOrder, setGraphsOrder] = useState(['recovered', 'deceased', 'active']);
+  const [startDate, setStartDate] = useState(new Date('01/01/2020'));
   const [endDate, setEndDate] = useState(today);
   const [filter, setFilter] = useState({
     date: {
@@ -58,7 +61,6 @@ function App() {
 
   const records = useSelector(selectRecords);
   const graphsData = useSelector(selectGraphsData);
-  const status = useSelector(selectStatus);
   const dispatch = useDispatch();
 
   // dispatch action to fetch records from api
@@ -91,22 +93,34 @@ function App() {
   const deceased = records.filter(record => record.sub_series === 'Deceased');
 
   return (
-    <div className={classNames(styles.app)}>
-      <div className={classNames(styles.filters)}>
-        <div className={classNames(styles.filter)}>
-          <label>Start date</label>
-          <DatePicker selected={startDate} onChange={date => handleDateChange(date, 'start')} />
+    <>
+      <h1>Aotearoa COVID Tracker</h1>
+      <div className={classNames(styles.app)}>
+        <div className={classNames(styles.filters)}>
+          <LocalizationProvider dateAdapter={AdapterDateFNS}>
+            <Stack spacing={3}>
+              <DesktopDatePicker
+                label="Start date"
+                inputFormat="MM/dd/yyyy"
+                value={startDate}
+                onChange={(d) => handleDateChange(d, 'start')}
+                renderInput={(params) => <TextField {...params}/>} 
+              />
+              <DesktopDatePicker
+                label="End date"
+                inputFormat="MM/dd/yyyy"
+                value={endDate}
+                onChange={(d) => handleDateChange(d, 'end')}
+                renderInput={(params) => <TextField {...params}/>} 
+              />
+              <div>Recovered: {(recovered.length > 0 && (recovered[recovered.length - 1].value - recovered[0].value)) || 0}</div>
+              <div>Deceased: {(deceased.length > 0 && (deceased[deceased.length - 1].value - deceased[0].value)) || 0}</div>
+            </Stack>
+          </LocalizationProvider>
         </div>
-        <div className={classNames(styles.filter)}>
-          <label>End date</label>
-          <DatePicker selected={endDate} onChange={date => handleDateChange(date, 'end')} />
-        </div>
-
-        <div>Recovered: {(recovered.length > 0 && (recovered[recovered.length - 1].value - recovered[0].value)) || 0}</div>
-        <div>Deceased: {(deceased.length > 0 && (deceased[deceased.length - 1].value - deceased[0].value)) || 0}</div>
+        <SortableList graphsOrder={graphsOrder} graphsData={graphsData} onSortEnd={onSortEnd} />
       </div>
-      <SortableList graphsOrder={graphsOrder} graphsData={graphsData} onSortEnd={onSortEnd} />
-    </div>
+    </>
   );
 }
 
